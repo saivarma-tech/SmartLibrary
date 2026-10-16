@@ -1,0 +1,288 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>SmartLibrary – Digital Library</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f6f1e7;--card:#fffdf8;--ink:#1e2b25;--mu:#6b746e;--g:#1f4d3a;--g2:#2f6b52;--gold:#b8893b;--bd:#e3d9c4;--mk:#f6dd8f;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121815;--card:#1a221e;--ink:#ece8dc;--mu:#98a39b;--g:#5fb18a;--g2:#3f8a68;--gold:#d7a955;--bd:#2b3630;--mk:#6b5a1f}}
+:root[data-theme="dark"]{--bg:#121815;--card:#1a221e;--ink:#ece8dc;--mu:#98a39b;--g:#5fb18a;--g2:#3f8a68;--gold:#d7a955;--bd:#2b3630;--mk:#6b5a1f}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 Inter,system-ui,sans-serif}
+h1,h2,h3,.brand span{font-family:"Playfair Display",Georgia,serif}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--card);border-bottom:1px solid var(--bd)}
+.in{max-width:1100px;margin:auto;padding:10px 16px;display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.brand{font-size:22px;font-weight:700;color:var(--g)}
+nav{display:flex;gap:4px;overflow-x:auto;max-width:100%}
+nav button,.chips button{border:0;background:none;color:var(--ink);padding:8px 14px;border-radius:99px;cursor:pointer;font:500 14px Inter,system-ui,sans-serif;white-space:nowrap}
+nav button:hover{background:var(--bg)}nav button.on{background:var(--g);color:#fff}
+.view[hidden]{display:none}.wrap{max-width:1100px;margin:auto;padding:20px 16px 50px}
+.hero{background:linear-gradient(135deg,#173b2c,#2f6b52);color:#fff;padding:56px 16px 44px;text-align:center}
+.eyebrow{letter-spacing:.2em;text-transform:uppercase;font-size:12px;color:#e6c98a;margin:0}
+.hero h1{font-size:clamp(28px,5vw,46px);margin:8px 0 22px}
+#sf{max-width:640px;margin:auto;display:flex;background:#fff;border-radius:99px;padding:5px;box-shadow:0 8px 24px #0004}
+#sf input{flex:1;min-width:0;border:0;outline:0;padding:10px 18px;font:16px Inter,system-ui,sans-serif;background:none;color:#1e2b25}
+.btn,#sf button{background:var(--gold);color:#fff;border:0;border-radius:99px;padding:10px 24px;font:600 15px Inter,system-ui,sans-serif;cursor:pointer}
+.chips{margin-top:16px;display:flex;justify-content:center;gap:6px;flex-wrap:wrap}
+.chips button{background:#ffffff22;color:#fff;border:1px solid #ffffff44}.chips button.on{background:#fff;color:var(--g)}
+.note{color:var(--mu);font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.bk{display:flex;gap:14px;background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px;cursor:pointer;transition:.15s}
+.bk:hover{transform:translateY(-3px);box-shadow:0 10px 24px #0002}
+.cov{flex:0 0 92px;height:128px;border-radius:4px 8px 8px 4px;padding:10px 8px;color:#fff;display:flex;flex-direction:column;justify-content:space-between;background:linear-gradient(135deg,hsl(var(--h),38%,30%),hsl(var(--h),45%,18%));border-left:6px solid #0005;box-shadow:3px 4px 10px #0004}
+.cov i{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#f0d9a0;font-style:normal}.cov b{font:600 12px/1.2 "Playfair Display",Georgia,serif}
+.bi h4{margin:0;font:600 16px/1.3 "Playfair Display",Georgia,serif}.au{color:var(--gold);font-size:13px;margin:2px 0 6px}.ab{margin:0;font-size:13px;color:var(--mu)}
+mark{background:var(--mk);color:inherit;border-radius:3px;padding:0 2px}
+.panel{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:16px;margin-bottom:16px}.panel h3{margin:0}
+.panel small{color:var(--mu)}.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.row{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--bd)}
+pre{background:var(--bg);border-radius:8px;padding:10px;white-space:pre-wrap;word-break:break-word;overflow-x:auto;font-size:13px;margin:10px 0 0}
+input:not([type=range]),select,textarea{width:100%;padding:8px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+input[type=range]{width:100%}label{display:block;font-size:12px;color:var(--mu);margin-top:8px}.panel .btn{margin-top:10px}
+dialog{max-width:560px;width:calc(100% - 32px);border:1px solid var(--bd);border-radius:14px;background:var(--card);color:var(--ink);padding:22px}
+dialog::backdrop{background:#0008}.dh{display:flex;justify-content:space-between;gap:10px}.dh h2{margin:0}.dh button{border:0;background:none;color:var(--ink);font-size:20px;cursor:pointer}
+.tag{display:inline-block;background:var(--bg);border:1px solid var(--bd);border-radius:99px;padding:1px 10px;margin:2px;font-size:12px}
+.sim{margin:6px 0;padding:8px;background:var(--bg);border-radius:8px}
+.kp{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:16px}
+.kp div{background:var(--g);color:#fff;border-radius:12px;padding:14px}.kp b{display:block;font:700 28px "Playfair Display",Georgia,serif}.kp small{color:#dfeee6}
+.bars{display:flex;gap:8px;align-items:flex-end;height:150px;margin-top:12px}.bar{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;font-size:11px;color:var(--mu)}
+.bar i{display:block;width:100%;background:var(--g2);border-radius:4px 4px 0 0}.bar em{font-style:normal}
+#lt{display:flex;gap:6px;overflow-x:auto;margin-bottom:14px}#lt button{border:1px solid var(--bd);background:var(--card);color:var(--ink);padding:7px 14px;border-radius:99px;cursor:pointer;white-space:nowrap}#lt button.on{background:var(--g);color:#fff}
+.badge{display:inline-block;font-size:11px;font-weight:600;padding:1px 9px;border-radius:99px;margin-bottom:6px}.badge.ok{background:#dff1e6;color:#1f4d3a}.badge.no{background:#f7dcd8;color:#a3271b}
+.row{align-items:center}.row .btn{padding:6px 14px;margin:0}dialog .panel{margin:12px 0 0}.msg{color:var(--g);font-weight:600}
+footer{text-align:center;color:var(--mu);font-size:12px;padding:20px}
+.shell{display:flex;max-width:1400px;margin:auto}.content{flex:1;min-width:0}
+#side{width:285px;flex:none;padding:14px 10px;position:sticky;top:calc(58px + env(safe-area-inset-top,0px));align-self:flex-start;max-height:calc(100vh - 60px);overflow-y:auto;border-right:1px solid var(--bd)}
+#side button{display:flex;gap:10px;align-items:center;width:100%;text-align:left;border:0;background:none;color:var(--ink);padding:8px 10px;border-radius:8px;cursor:pointer;font:500 14px Inter,system-ui,sans-serif}
+#side button b{flex:none;width:24px;height:24px;border-radius:50%;background:var(--bd);display:grid;place-items:center;font-size:12px}
+#side button:hover{background:var(--card)}#side button.on{background:var(--g);color:#fff}#side button.on b{background:#ffffff33}
+#mb{display:none;border:1px solid var(--bd);background:var(--card);color:var(--ink);border-radius:8px;padding:5px 10px;font-size:18px;cursor:pointer}
+.tw{overflow-x:auto;padding:0}table{width:100%;border-collapse:collapse;font-size:13px}th{text-align:left;background:var(--g);color:#fff;padding:9px 12px;white-space:nowrap}td{padding:9px 12px;border-bottom:1px solid var(--bd)}
+.btn.sm{padding:5px 12px;font-size:12px;margin:6px 0 0}.btn:disabled{opacity:.4;cursor:not-allowed}
+.hb{display:flex;align-items:center;gap:8px;margin:5px 0}.hb span{width:110px;font-size:13px}.hb i{height:14px;background:var(--g2);border-radius:4px}.hb b{font-size:13px}
+@media(max-width:800px){#mb{display:inline-block}#side{display:none;position:fixed;z-index:9;left:0;top:calc(58px + env(safe-area-inset-top,0px));bottom:0;background:var(--card);max-height:none}#side.open{display:block}}
+:root{--soft:#f0eadb}@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--soft:#242e29}}:root[data-theme="dark"]{--soft:#242e29}
+.app{display:flex;min-height:100vh}.content{flex:1;min-width:0}.mtop{display:none}
+#side{width:250px;flex:none;position:sticky;top:0;height:100vh;max-height:none;padding:18px 12px;background:linear-gradient(180deg,#123126,#1d4a3a);border:0;display:flex;flex-direction:column;overflow-y:auto;align-self:flex-start}
+.logo{color:#fff;font:700 22px "Playfair Display",Georgia,serif;padding:2px 10px 8px}
+.gl{color:#9fc4b1;font-size:11px;letter-spacing:.12em;text-transform:uppercase;margin:16px 10px 4px}
+#side button{color:#e8f2ec;gap:12px;padding:9px 12px;border-radius:10px}#side button span{width:22px;text-align:center}
+#side button:hover{background:#ffffff14}#side button.on{background:#ffffff22;box-shadow:inset 3px 0 0 var(--gold)}
+#side .exit{margin-top:auto;color:#f3c6bd}
+.wrap{max-width:1050px;margin:0;padding:28px 30px 70px}h2{font-size:27px;margin:0 0 18px}.sec{margin:26px 0 12px}
+.panel{border-radius:14px;box-shadow:0 2px 10px #0000000d}
+th{background:var(--soft);color:var(--mu);font-size:11px;letter-spacing:.06em;text-transform:uppercase}
+.kp div{background:var(--card);color:var(--ink);border:1px solid var(--bd);border-radius:14px;padding:16px;display:grid;gap:2px;box-shadow:0 2px 10px #0000000d}.kp div span{font-size:22px}.kp b{color:var(--g)}.kp small{color:var(--mu)}
+.tabs{display:flex;gap:6px;margin-bottom:14px;overflow-x:auto}.tabs button{border:1px solid var(--bd);background:var(--card);color:var(--ink);padding:7px 16px;border-radius:99px;cursor:pointer;white-space:nowrap;font:500 14px Inter,system-ui,sans-serif}.tabs .on{background:var(--g);color:#fff;border-color:var(--g)}
+#sf{max-width:none;margin:0;background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:6px;gap:6px;box-shadow:0 2px 10px #0000000d}#sf input{color:var(--ink)}
+#sf select{width:auto;border:0;background:var(--soft);color:var(--ink);border-radius:10px;padding:0 10px}#sf button{border-radius:10px;background:var(--g)}
+.chips{justify-content:flex-start;margin:12px 0}.chips button{background:var(--card);color:var(--ink);border:1px solid var(--bd)}.chips button.on{background:var(--g);color:#fff}
+.mods{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}.mod{text-align:left;background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:14px;cursor:pointer;color:var(--ink);font:inherit}.mod:hover{border-color:var(--g)}.mod b{color:var(--gold);font-size:12px}.mod h4{margin:2px 0 4px;font:600 16px "Playfair Display",Georgia,serif}.mod small{color:var(--mu)}
+.bar2{display:flex;gap:10px;margin-bottom:12px}.bar2 select{width:auto}.btn.ghost{background:none;border:1px solid var(--bd);color:var(--ink)}
+#toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,30px);background:#1f4d3a;color:#fff;padding:10px 20px;border-radius:99px;opacity:0;transition:.25s;z-index:20;pointer-events:none;max-width:90%}#toast.on{opacity:1;transform:translate(-50%,0)}
+@media(max-width:800px){.mtop{display:flex;align-items:center;gap:10px;padding:10px 16px;background:var(--card);border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:5}#mb{display:inline-block}#side{display:none;position:fixed;z-index:9;left:0;top:0;bottom:0;max-height:none;height:auto}#side.open{display:flex}.wrap{padding:20px 16px 60px}}
+
+/* vertical sidebar: menu items listed one below another */
+.app{display:flex;min-height:100vh;align-items:flex-start}.mtop{display:none}
+#side{width:250px;flex:none;position:sticky;top:0;height:100vh;max-height:none;flex-direction:column;flex-wrap:nowrap;align-items:stretch;gap:0;padding:18px 12px;overflow-y:auto;background:linear-gradient(180deg,#123126,#1d4a3a);box-shadow:none}
+.logo{display:flex;align-items:center;gap:8px;padding:2px 10px 8px}
+#nv{display:block;flex:none}
+.gl{display:block;margin:16px 10px 4px;font-size:11px}
+#side button{display:flex;width:100%;padding:9px 12px;font-size:14px;gap:12px;text-align:left;white-space:normal}
+#side button.on{box-shadow:inset 3px 0 0 var(--gold)}
+#side .exit{margin-top:auto}
+#mb{display:none;background:#ffffff26;color:#fff;border:0;border-radius:8px;padding:4px 10px;font-size:18px;cursor:pointer}
+.wrap{max-width:1050px;margin:0}
+@media(max-width:900px){.app{display:block}#side{position:relative;width:100%;height:auto;padding:10px 14px}#mb{display:inline-block}#nv,#side .exit{display:none}#side.open #nv{display:block}#side.open .exit{display:flex;margin-top:8px}.wrap{padding:20px 16px 60px}}
+.btn.danger{background:#b3382c;color:#fff;border:0}.btn.danger:hover{background:#962d23}
+</style></head><body>
+<div class="app"><aside id="side"><div class="logo"><button id="mb">☰</button>📚 SmartLibrary</div><nav id="nv"></nav><button class="exit" id="ex"><span>⏻</span>Exit</button></aside>
+<div class="content"><section class="view" id="v0" hidden><div class="wrap"><h2>Search Library</h2><form id="sf"><input id="q" placeholder="Search books, journals, papers… try “suffix arrays” or a typo like “libary”" autocomplete="off"><select id="md"><option value="multi">Smart search (Aho-Corasick)</option><option value="kmp">Exact phrase (KMP)</option><option value="rk">Hash search (Rabin-Karp)</option></select><button>Search</button></form><div class="chips" id="ch"></div><p id="note" class="note"></p><div class="grid" id="res"></div></div></section>
+<section class="view" id="v1" hidden></section><section class="view" id="v2" hidden></section><section class="view" id="v3" hidden></section>
+<section class="view" id="v4" hidden><div class="wrap"><h2>Algorithm Lab</h2><p class="note">Run every algorithm from the six modules directly on your own inputs.</p><div id="lt"></div><div id="lm"></div></div></section>
+<section class="view" id="v7" hidden></section></div></div>
+<dialog id="dlg"></dialog><div id="toast"></div>
+<script>
+// ---- M1 strings
+function pf(p){const f=[0];for(let i=1,k=0;i<p.length;i++){while(k&&p[i]!=p[k])k=f[k-1];if(p[i]==p[k])k++;f.push(k)}return f}
+function kmp(t,p){const f=pf(p),r=[];for(let i=0,k=0;i<t.length;i++){while(k&&t[i]!=p[k])k=f[k-1];if(t[i]==p[k])k++;if(k==p.length){r.push(i-k+1);k=f[k-1]}}return r}
+function zf(s){const n=s.length,z=Array(n).fill(0);for(let i=1,l=0,r=0;i<n;i++){if(i<r)z[i]=Math.min(r-i,z[i-l]);while(i+z[i]<n&&s[z[i]]==s[i+z[i]])z[i]++;if(i+z[i]>r){l=i;r=i+z[i]}}return z}
+function rk(t,p){const M=1000000007,B=256,m=p.length;if(m>t.length)return[];let h=0,ph=0,pw=1,r=[];for(let i=0;i<m;i++){ph=(ph*B+p.charCodeAt(i))%M;h=(h*B+t.charCodeAt(i))%M;if(i)pw=pw*B%M}
+for(let i=0;i+m<=t.length;i++){if(h==ph&&t.substr(i,m)==p)r.push(i);if(i+m<t.length)h=((h-t.charCodeAt(i)*pw%M+M)*B+t.charCodeAt(i+m))%M}return r}
+function ac(t,ws){const g=[{n:{},f:0,o:[]}];ws.forEach(w=>{let s=0;for(const c of w){if(!g[s].n[c]){g.push({n:{},f:0,o:[]});g[s].n[c]=g.length-1}s=g[s].n[c]}g[s].o.push(w)});const q=[...Object.values(g[0].n)];
+while(q.length){const u=q.shift();for(const c in g[u].n){const v=g[u].n[c];let f=g[u].f;while(f&&!g[f].n[c])f=g[f].f;const x=g[f].n[c];g[v].f=x!==undefined&&x!=v?x:0;g[v].o=g[v].o.concat(g[g[v].f].o);q.push(v)}}
+let s=0,r=[];for(let i=0;i<t.length;i++){const c=t[i];while(s&&!g[s].n[c])s=g[s].f;s=g[s].n[c]||0;g[s].o.forEach(w=>r.push(w+"@"+(i-w.length+1)))}return r}
+// ---- M2 suffix
+const sa=s=>[...s].map((_,i)=>i).sort((a,b)=>s.slice(a)<s.slice(b)?-1:1);
+function kasai(s,a){const n=s.length,rn=[],l=Array(n).fill(0);a.forEach((v,i)=>rn[v]=i);for(let i=0,h=0;i<n;i++){if(rn[i]){const j=a[rn[i]-1];while(s[i+h]&&s[i+h]==s[j+h])h++;l[rn[i]]=h;if(h)h--}else h=0}return l}
+// ---- M3 DP
+function dl(a,b){const d=[];for(let i=0;i<=a.length;i++){d[i]=[i];for(let j=1;j<=b.length;j++){d[i][j]=i?Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]!=b[j-1])):j;if(i>1&&j>1&&a[i-1]==b[j-2]&&a[i-2]==b[j-1])d[i][j]=Math.min(d[i][j],d[i-2][j-2]+1)}}return d[a.length][b.length]}
+function nw(a,b){const n=a.length,m=b.length,d=[];for(let i=0;i<=n;i++){d[i]=[];for(let j=0;j<=m;j++)d[i][j]=i&&j?Math.max(d[i-1][j-1]+(a[i-1]==b[j-1]?1:-1),d[i-1][j]-1,d[i][j-1]-1):-(i+j)}
+let i=n,j=m,x="",y="";while(i||j){if(i&&j&&d[i][j]==d[i-1][j-1]+(a[i-1]==b[j-1]?1:-1)){x=a[--i]+x;y=b[--j]+y}else if(i&&d[i][j]==d[i-1][j]-1){x=a[--i]+x;y="-"+y}else{x="-"+x;y=b[--j]+y}}return`score=${d[n][m]}\n${x}\n${y}`}
+function mcm(p){const n=p.length-1,m=[...Array(n)].map(()=>Array(n).fill(0));for(let l=2;l<=n;l++)for(let i=0;i+l<=n;i++){const j=i+l-1;m[i][j]=1e18;for(let k=i;k<j;k++)m[i][j]=Math.min(m[i][j],m[i][k]+m[k+1][j]+p[i]*p[k+1]*p[j+1])}return m[0][n-1]}
+function bm(v,c,B){const n=v.length,co=[0],va=[0];let best=0,bmask=0;for(let s=1;s<1<<n;s++){const b=31-Math.clz32(s&-s),p=s&(s-1);co[s]=co[p]+c[b];va[s]=va[p]+v[b];if(co[s]<=B&&va[s]>best){best=va[s];bmask=s}}
+return`best value=${best}, cost=${co[bmask]}, docs chosen=[${[...Array(n)].map((_,i)=>bmask>>i&1?i+1:0).filter(Boolean)}]`}
+function obst(f){const n=f.length,e=[...Array(n+2)].map(()=>Array(n+2).fill(0)),w=k=>f.slice(k[0]-1,k[1]).reduce((a,b)=>a+b,0);for(let l=1;l<=n;l++)for(let i=1;i+l-1<=n;i++){const j=i+l-1;e[i][j]=1e18;for(let r=i;r<=j;r++)e[i][j]=Math.min(e[i][j],e[i][r-1]+e[r+1][j]+w([i,j]))}return e[1][n]}
+// ---- M4 flow
+function match(lines){const adj={},mt={};lines.forEach(l=>{const[a,b]=l.split(":");adj[a.trim()]=b.split(",").map(x=>x.trim())});const tr=(u,v)=>{for(const p of adj[u])if(!v.has(p)){v.add(p);if(!mt[p]||tr(mt[p],v)){mt[p]=u;return true}}return false};let c=0;for(const u in adj)if(tr(u,new Set))c++;return`matching size=${c} (= min vertex cover by König)\n`+Object.entries(mt).map(([p,r])=>r+" ↔ "+p).join("\n")}
+function ek(lines){const cap={},nb={};lines.forEach(l=>{const[u,v,c]=l.split(/\s+/);cap[u+"|"+v]=(cap[u+"|"+v]||0)+ +c;cap[v+"|"+u]=cap[v+"|"+u]||0;(nb[u]=nb[u]||new Set).add(v);(nb[v]=nb[v]||new Set).add(u)});let fl=0;for(;;){const pr={S:null},q=["S"];while(q.length&&!("T"in pr)){const u=q.shift();for(const v of nb[u]||[])if(!(v in pr)&&cap[u+"|"+v]>0){pr[v]=u;q.push(v)}}if(!("T"in pr))break;let b=1e9,v="T";while(pr[v]){b=Math.min(b,cap[pr[v]+"|"+v]);v=pr[v]}v="T";while(pr[v]){cap[pr[v]+"|"+v]-=b;cap[v+"|"+pr[v]]+=b;v=pr[v]}fl+=b}return"max flow S→T = "+fl}
+// ---- M5 NP
+function vc(s){const cov=new Set;s.split(",").forEach(e=>{const[a,b]=e.trim().split("-");if(!cov.has(a)&&!cov.has(b)){cov.add(a);cov.add(b)}});return`2-approx cover = {${[...cov]}} (size ${cov.size}, ≤ 2·OPT)`}
+function sat(s){const cl=L(s).map(c=>c.split(/\s+/).map(Number)),n=Math.max(...cl.flat().map(Math.abs));for(let m=0;m<1<<n;m++)if(cl.every(c=>c.some(x=>(m>>(Math.abs(x)-1)&1)==(x>0?1:0))))return"SAT: "+[...Array(n)].map((_,i)=>`x${i+1}=${m>>i&1}`).join(" ");return"UNSATISFIABLE"}
+// ---- M6 random/parallel
+function rqs(a){let c=0;const q=x=>{if(x.length<2)return x;const p=x[Math.random()*x.length|0],l=[],e=[],g=[];x.forEach(v=>{c++;v<p?l.push(v):v>p?g.push(v):e.push(v)});return[...q(l),...e,...q(g)]};const r=q(a);return`sorted: ${r}\ncomparisons=${c}`}
+function res(n,k){const r=[];for(let i=1;i<=n;i++){if(i<=k)r.push(i);else{const j=Math.random()*i|0;if(j<k)r[j]=i}}return`sample of ${k} from stream 1..${n}: ${r.sort((a,b)=>a-b)}`}
+function mr(nStr){const n=BigInt(nStr);if(n<2n)return"composite";const pw=(b,e,m)=>{let r=1n;b%=m;while(e){if(e&1n)r=r*b%m;b=b*b%m;e>>=1n}return r};for(const p of[2n,3n,5n,7n,11n,13n,17n,19n,23n,29n,31n,37n]){if(n==p)return"prime";if(n%p==0n)return"composite"}let d=n-1n,s=0;while(!(d&1n)){d>>=1n;s++}
+for(const a of[2n,3n,5n,7n,11n,13n,17n,19n,23n,29n,31n,37n]){let x=pw(a,d,n);if(x==1n||x==n-1n)continue;let ok=0;for(let i=1;i<s;i++){x=x*x%n;if(x==n-1n){ok=1;break}}if(!ok)return`composite (witness ${a})`}return"probably prime"}
+function bl(a){let n=1;while(n<a.length)n*=2;const x=[...a,...Array(n-a.length).fill(0)];for(let d=1;d<n;d*=2)for(let i=2*d-1;i<n;i+=2*d)x[i]+=x[i-d];x[n-1]=0;for(let d=n/2;d>=1;d/=2)for(let i=2*d-1;i<n;i+=2*d){const t=x[i-d];x[i-d]=x[i];x[i]+=t}return`exclusive prefix: ${x.slice(0,a.length)}\nrounds: ${2*Math.log2(n)} (work O(n), depth O(log n))`}
+function pr(a,p){const n=a.length,d=Math.ceil(Math.log2(n)),W=n-1;return`sum=${a.reduce((x,y)=>x+y,0)}\nwork W=${W}, depth D=${d}\nBrent: T_p ≤ W/p + D = ${(W/p+d).toFixed(2)} steps on ${p} processors`}
+const T="knowledge organization in digital libraries; digital libraries need search";
+const M={
+"M1 Strings":[
+{n:"KMP – keyword search",i:[["Document",T],["Keyword","libraries"]],f:(t,p)=>"matches at: "+(kmp(t,p).join(", ")||"none")},
+{n:"Z-Function – repeated phrases",i:[["String","digital libraries digital"]],f:s=>{const z=zf(s);return"Z: "+z+"\nprefix repeats: "+z.map((v,i)=>v?`${s.substr(i,v)}@${i}`:"").filter(Boolean)}},
+{n:"Rabin-Karp – hash search",i:[["Document",T],["Pattern","digital"]],f:(t,p)=>"matches at: "+(rk(t,p).join(", ")||"none")},
+{n:"Aho-Corasick – multi keyword",i:[["Document",T],["Keywords (comma)","digital,library,search,libraries"]],f:(t,w)=>ac(t,w.split(",")).join("\n")||"none"}],
+"M2 Suffix":[
+{n:"Suffix Array + LCP (Kasai)",i:[["Text","banana"]],f:s=>{const a=sa(s),l=kasai(s,a);return"i  LCP  suffix\n"+a.map((v,i)=>`${v}  ${l[i]}   ${s.slice(v)}`).join("\n")}},
+{n:"Longest common phrase of two docs",i:[["Doc A","digital library systems"],["Doc B","modern library systems index"]],f:(a,b)=>{const s=a+"\x01"+b,x=sa(s),l=kasai(s,x);let m=0,at=0;for(let i=1;i<x.length;i++)if((x[i]<a.length)!=(x[i-1]<a.length)&&l[i]>m){m=l[i];at=x[i]}return`"${s.substr(at,m)}" (length ${m})`}}],
+"M3 DP":[
+{n:"Damerau-Levenshtein – query correction",i:[["Query","libary"],["Dictionary","library,literary,binary,liberty"]],f:(q,d)=>d.split(",").map(w=>[dl(q,w),w]).sort((a,b)=>a[0]-b[0]).map(x=>`${x[1]}: ${x[0]}`).join("\n")},
+{n:"Needleman-Wunsch alignment",i:[["Seq A","GATTACA"],["Seq B","GCATGCU"]],f:nw},
+{n:"Matrix-Chain Multiplication",i:[["Dimensions","10,30,5,60"]],f:d=>"min multiplications = "+mcm(N(d))},
+{n:"Bitmask DP – pick documents",i:[["Values","60,100,120,80"],["Costs","10,20,30,25"],["Budget","50"]],f:(v,c,b)=>bm(N(v),N(c),+b)},
+{n:"Optimal BST – keyword frequencies",i:[["Frequencies (sorted keys)","34,8,50,20"]],f:f=>"min expected cost = "+obst(N(f))}],
+"M4 Flow":[
+{n:"Bipartite Matching – reviewers to papers",i:[["Reviewer:Papers (one per line)","R1:P1,P2\nR2:P1\nR3:P2,P3"]],f:s=>match(L(s))},
+{n:"Edmonds-Karp – resource distribution",i:[["Edges 'u v cap' (S=source, T=sink)","S A 10\nS B 5\nA B 15\nA T 10\nB T 10"]],f:s=>ek(L(s))}],
+"M5 NP":[
+{n:"3-SAT – resource constraints",i:[["Clauses (; separated)","1 2 3; -1 2 3; 1 -2 3; -3 -2 1"]],f:sat},
+{n:"Vertex-Cover 2-approximation",i:[["Edges","1-2,2-3,3-4,4-5,2-5"]],f:vc}],
+"M6 Random/Parallel":[
+{n:"Randomized QuickSort – rank docs",i:[["Scores","42,7,19,88,3,56"]],f:s=>rqs(N(s))},
+{n:"Reservoir Sampling – usage stream",i:[["Stream size","1000"],["Sample size","5"]],f:(n,k)=>res(+n,+k)},
+{n:"Miller-Rabin primality",i:[["Number","1000000007"]],f:mr},
+{n:"Blelloch Scan – cumulative usage",i:[["Daily usage","3,1,7,0,4,1,6,3"]],f:s=>bl(N(s))},
+{n:"Parallel Reduce + Brent's theorem",i:[["Values","5,3,8,1,9,2,7,4"],["Processors","4"]],f:(a,p)=>pr(N(a),+p)}]};
+
+const $=s=>document.querySelector(s);let F="All";const RL=new Set;
+const rq=a=>a.length<2?a:(p=>[...rq(a.filter(x=>x>p)),...a.filter(x=>x==p),...rq(a.filter(x=>x<p))])(a[Math.random()*a.length|0]);
+const D=[
+{t:"Introduction to String Algorithms",a:"R. Sedgewick",y:2011,ty:"Book",h:6,r:9,k:"string,search,algorithms",ab:"A practical guide to pattern matching, suffix arrays and text indexing for digital library search"},
+{t:"Suffix Arrays for Large Text Collections",a:"M. Farach",y:2016,ty:"Paper",h:2,r:8,k:"suffix,indexing,text",ab:"Linear time suffix arrays construction for indexing large document repositories"},
+{t:"Dynamic Programming in Practice",a:"T. Cormen",y:2009,ty:"Book",h:8,r:9,k:"dynamic,alignment,trees",ab:"Edit distance, sequence alignment and optimal search trees explained with examples"},
+{t:"Spell Correction for Search Queries",a:"P. Norvig",y:2014,ty:"Paper",h:1,r:7,k:"query,correction,search",ab:"Edit distance based query correction improves digital library search accuracy"},
+{t:"Network Flow and Matching",a:"L. Ford",y:2008,ty:"Book",h:7,r:8,k:"flow,matching,reviewers",ab:"Maximum flow and bipartite matching for assigning reviewers and library resources"},
+{t:"Journal of Information Retrieval, Vol. 12",a:"Editorial Board",y:2020,ty:"Journal",h:3,r:7,k:"ranking,citation,search",ab:"Ranking documents, keyword search and citation analysis in large repositories"},
+{t:"NP-Completeness Made Simple",a:"M. Garey",y:2010,ty:"Book",h:5,r:6,k:"np,reductions,approximation",ab:"Reductions from 3-SAT to clique and vertex cover with approximation algorithms"},
+{t:"Randomized Algorithms for Ranking",a:"R. Motwani",y:2012,ty:"Paper",h:2,r:7,k:"randomized,ranking,sampling",ab:"Randomized quicksort and reservoir sampling for ranking documents and usage streams"},
+{t:"Parallel Prefix Sums at Scale",a:"G. Blelloch",y:2015,ty:"Paper",h:2,r:8,k:"parallel,scan,statistics",ab:"Parallel scan and reduce for cumulative library usage statistics and ranking"},
+{t:"Citation Networks and Document Similarity",a:"A. Kumar",y:2021,ty:"Journal",h:3,r:6,k:"similarity,citation,alignment",ab:"Document similarity using common phrases, sequence alignment and citation analysis"}];
+["String Algorithms","String Algorithms","Dynamic Programming","Information Retrieval","Graph & Flow","Information Retrieval","Complexity Theory","Randomized & Parallel","Randomized & Parallel","Information Retrieval"].forEach((c,i)=>D[i].cat=c);
+const st={g:(k,d)=>{try{const v=JSON.parse(localStorage.getItem(k));return v==null?d:v}catch(e){return d}},s:(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const N0=D.length;D.forEach(d=>d.c=2);st.g("sl_books",[]).forEach(b=>D.push(b));st.g("sl_rm",[]).forEach(i=>{if(D[i])D[i].x=1});
+const V=new Set;function idx(d){((d.t+" "+d.ab).toLowerCase().match(/[a-z0-9-]+/g)||[]).forEach(w=>V.add(w))}D.forEach(idx);
+let BH=st.g("sl_bh",[]),SH=st.g("sl_sh",[]),ME=st.g("sl_me","");
+const act=()=>BH.filter(x=>!x.r),av=i=>D[i].c-act().filter(l=>l.i==i).length,esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])),
+ID=i=>"BPJ"[["Book","Paper","Journal"].indexOf(D[i].ty)]+String(i+1).padStart(3,"0"),fd=t=>new Date(t).toLocaleDateString(),live=()=>D.map((_,i)=>i).filter(i=>!D[i].x),
+find=q=>{q=q.trim().toUpperCase();return live().find(i=>ID(i)==q||String(i+1)==q)},
+save=()=>{st.s("sl_bh",BH);st.s("sl_sh",SH);st.s("sl_books",D.slice(N0));st.s("sl_rm",D.slice(0,N0).map((d,i)=>d.x?i:-1).filter(i=>i>=0))},
+tbl=(h,r)=>`<div class="panel tw"><table><thead><tr>${h.map(x=>`<th>${x}</th>`).join("")}</tr></thead><tbody>${r.map(x=>`<tr>${x.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")||`<tr><td colspan="${h.length}">No records.</td></tr>`}</tbody></table></div>`,
+itemTbl=ids=>tbl(["ID","Type","Title","Author","Year","Category","Available"],ids.map(i=>[ID(i),D[i].ty,D[i].t,D[i].a,D[i].y,D[i].cat,av(i)+"/"+D[i].c])),
+badge=x=>x.due<Date.now()?'<span class="badge no">OVERDUE</span>':'<span class="badge ok">On loan</span>';
+
+function go(v){document.querySelectorAll(".view").forEach(s=>s.hidden=s.id!="v"+v);scrollTo(0,0);$("#side").classList.remove("open")}
+function pg(t,h){$("#v7").innerHTML=`<div class="wrap"><h2>${t}</h2>${h}</div>`;go(7)}
+const toast=m=>{const t=$("#toast");t.textContent=m;t.classList.add("on");clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove("on"),2800)};
+function tabs(title,defs,k=0){pg(title,`<div class="tabs">${defs.map(d=>`<button>${d[0]}</button>`).join("")}</div><div id="tb"></div>`);const bs=[...document.querySelectorAll("#v7 .tabs button")],show=i=>{bs.forEach((b,j)=>b.classList.toggle("on",i==j));defs[i][1]($("#tb"))};bs.forEach((b,i)=>b.onclick=()=>show(i));show(k)}
+const ti=()=>[...document.querySelectorAll("#v7 .tabs button")].findIndex(b=>b.classList.contains("on"));
+function hi(s,terms){const m=Array(s.length).fill(0);ac(s.toLowerCase(),terms).forEach(x=>{const[w,p]=x.split("@");for(let j=+p;j<+p+w.length;j++)m[j]=1});return[...s].map((c,j)=>(m[j]&&!m[j-1]?"<mark>":"")+c+(m[j]&&!m[j+1]?"</mark>":"")).join("")}
+
+
+const card=(i,terms)=>{const d=D[i];return`<article class="bk" data-i="${i}"><div class="cov" style="--h:${i*47%360}"><i>${d.ty}</i><b>${d.t}</b></div><div class="bi"><h4>${d.t}</h4><p class="au">${d.a} · ${d.y} · ${ID(i)}</p><span class="badge ${av(i)?"ok":"no"}">${av(i)?av(i)+" of "+d.c+" available":"All borrowed"}</span><p class="ab">${terms.length?hi(d.ab,terms):d.ab}</p><button class="btn sm" data-b="${i}" ${av(i)?"":"disabled"}>📖 Borrow</button></div></article>`};
+function run(){const q=$("#q").value.trim(),md=$("#md").value,t0=performance.now();let terms=md=="multi"?(q.toLowerCase().match(/[a-z0-9-]+/g)||[]):(q?[q.toLowerCase()]:[]),note="";
+if(md=="multi"&&terms.length){const s=terms.map(w=>{if(V.has(w)||w.length<4)return w;const b=[...V].map(v=>[dl(w,v),v]).sort((x,y)=>x[0]-y[0])[0];return b[0]<=2?b[1]:w});if(s.join()!=terms.join()){note=`Showing results for <b>${s.join(" ")}</b> (auto-corrected by Damerau-Levenshtein)`;terms=s}}
+let ix;if(!terms.length)ix=live();else{const keys=[];live().forEach(i=>{const d=D[i],tx=(d.t+" "+d.a+" "+d.ab+" "+d.k).toLowerCase(),sc=md=="multi"?ac(tx,terms).length+3*terms.filter(w=>kmp(d.t.toLowerCase(),w).length).length:(md=="kmp"?kmp(tx,terms[0]):rk(tx,terms[0])).length;if(sc)keys.push(sc*1000+999-i)});ix=rq(keys).map(k=>999-k%1000)}
+ix=ix.filter(i=>F=="All"||(F=="Available"?av(i)>0:D[i].ty==F));
+$("#note").innerHTML=(note?note+" · ":"")+`${ix.length} result${ix.length==1?"":"s"}`+(terms.length?` · ${{multi:"Aho-Corasick",kmp:"KMP",rk:"Rabin-Karp"}[md]} matching, ranked by Randomized QuickSort · ${(performance.now()-t0).toFixed(1)} ms`:"");
+$("#res").innerHTML=ix.map(i=>card(i,terms)).join("")||'<p class="note">No documents found.</p>'}
+function cp(a,b){const s=a+"\x01"+b,x=sa(s),l=kasai(s,x);let m=0,at=0;for(let i=1;i<x.length;i++)if((x[i]<a.length)!=(x[i-1]<a.length)&&l[i]>m){m=l[i];at=x[i]}return[m,s.substr(at,m).trim()]}
+
+
+function det(i){const d=D[i],sim=live().filter(j=>j!=i).map(j=>[...cp(d.ab.toLowerCase(),D[j].ab.toLowerCase()),j]).sort((a,b)=>b[0]-a[0]).slice(0,3);
+$("#dlg").innerHTML=`<div class="dh"><h2>${d.t}</h2><button onclick="$('#dlg').close()">✕</button></div><p class="au">${ID(i)} · ${d.a} · ${d.y} · ${d.ty} · ${d.cat}</p><p>${d.ab}.</p><p>${d.k.split(",").map(k=>`<span class="tag">${k}</span>`).join("")}</p><h4>Similar documents</h4>${sim.map(s=>`<div class="sim"><b>${D[s[2]].t}</b><br><small>shared phrase “${s[1]}” · Suffix Array + LCP</small></div>`).join("")}<p><button class="btn" ${av(i)?"":"disabled"} onclick="$('#dlg').close();brw(${i})">📖 Borrow this book</button> <button class="btn ghost" onclick="RL.add(${i});toast('Added to reading list')">＋ Reading list</button></p>`;$("#dlg").showModal()}
+const TY=["All","Book","Paper","Journal"];
+function cat(k=0){tabs("Catalogue",TY.map(t=>[t=="All"?"All items":t+"s",el=>{const cs=[...new Set(live().map(i=>D[i].cat))].sort();el.innerHTML=`<div class="bar2"><input id="fq" placeholder="Filter by title or ID (e.g. B003)"><select id="fc"><option>All categories</option>${cs.map(c=>`<option>${c}</option>`).join("")}</select></div><div id="ft"></div>`;
+const f=()=>{const q=$("#fq").value.toLowerCase(),c=$("#fc").value;$("#ft").innerHTML=tbl(["ID","Type","Title","Author","Year","Category","Avail.",""],live().filter(i=>(t=="All"||D[i].ty==t)&&(c=="All categories"||D[i].cat==c)&&(!q||D[i].t.toLowerCase().includes(q)||ID(i).toLowerCase()==q)).map(i=>[ID(i),D[i].ty,D[i].t,D[i].a,D[i].y,D[i].cat,av(i)+"/"+D[i].c,`<button class="btn sm danger" onclick="rmi(${i},this)">🗑 Delete</button>`]))};$("#fq").oninput=f;$("#fc").onchange=f;f()}]),k)}
+function rmi(i,b){if(!b.dataset.c){b.dataset.c=1;b.textContent="Click again to confirm";return}if(act().some(l=>l.i==i))return toast("Cannot delete – item is currently borrowed");const t=D[i].t;D[i].x=1;RL.delete(i);save();run();document.querySelector("#dl")?delv():cat(ti());toast("✓ Deleted “"+t+"” – removed from search and indexes")}
+function delv(){pg("Delete Item",`<div class="panel"><p class="note">Deleting an item removes it from search, the catalogue and every text index. Items that are currently borrowed cannot be deleted.</p><label>Item ID (e.g. B003, P002)</label><div class="bar2"><input id="di" placeholder="Enter item ID"><button class="btn" id="dg">Find</button></div><div id="dp"></div></div><div id="dl"></div>`);
+$("#dl").innerHTML=tbl(["ID","Type","Title","Author","Category","Avail.",""],live().map(i=>[ID(i),D[i].ty,D[i].t,D[i].a,D[i].cat,av(i)+"/"+D[i].c,`<button class="btn sm danger" onclick="rmi(${i},this)">🗑 Delete</button>`]));
+$("#dg").onclick=()=>{const i=find($("#di").value);$("#dp").innerHTML=i==null?'<p class="note">No item with that ID.</p>':`<div class="sim"><b>${D[i].t}</b><br><small>${ID(i)} · ${D[i].a} · ${D[i].ty} · ${av(i)}/${D[i].c} available</small><br><button class="btn sm danger" onclick="rmi(${i},this)">🗑 Delete this item</button></div>`}}
+function addv(){pg("Add Item",`<div class="panel"><div class="two"><div><label>Title *</label><input id="a1"><label>Author *</label><input id="a2"><label>Year</label><input id="a3" type="number" value="2024"><label>Category</label><input id="a9" list="cl2" placeholder="e.g. String Algorithms"><datalist id="cl2">${[...new Set(D.map(d=>d.cat))].map(c=>`<option>${c}</option>`).join("")}</datalist></div><div><label>Type</label><select id="a4"><option>Book<option>Paper<option>Journal</select><label>Copies</label><input id="a5" type="number" value="2" min="1"><label>Reading hours</label><input id="a6" type="number" value="4" min="1"><label>Keywords (comma separated)</label><input id="a7"></div></div><label>Abstract *</label><textarea id="a8" rows="3"></textarea><button class="btn" id="ab">Add to library</button></div>`);
+$("#ab").onclick=()=>{const g=k=>esc($("#a"+k).value.trim()),t=g(1),au=g(2),abs=g(8);if(!t||!au||!abs)return toast("Title, author and abstract are required");
+if(D.some(d=>!d.x&&d.t.toLowerCase()==t.toLowerCase()))return toast("This title already exists");
+const b={t,a:au,y:+g(3)||2024,ty:g(4),c:Math.max(1,+g(5)||1),h:Math.max(1,+g(6)||1),r:7,cat:g(9)||"General",k:g(7).toLowerCase().replace(/\s*,\s*/g,",")||"general",ab:abs};
+D.push(b);idx(b);save();run();["1","2","7","8","9"].forEach(k=>$("#a"+k).value="");toast("✓ Added “"+t+"” as "+ID(D.length-1))}}
+function brw(sel){const A=live(),o=sel==null?A:[sel,...A.filter(x=>x!=sel)];pg("Borrow Book",`<div class="panel"><label>Your name / member ID</label><input id="bn" value="${esc(ME)}" placeholder="Enter your name or member ID">${sel==null?"":`<p class="note">Selected: <b>${D[sel].t}</b> – enter your name and press Borrow.</p>`}<small>14-day loan · up to 3 books per member</small></div>`+tbl(["ID","Title","Author","Category","Available",""],o.map(i=>[ID(i),D[i].t,D[i].a,D[i].cat,`<span class="badge ${av(i)?"ok":"no"}">${av(i)}/${D[i].c}</span>`,`<button class="btn sm" ${av(i)?"":"disabled"} onclick="doB(${i})">📖 Borrow</button>`])))}
+function doB(i){const w=$("#bn").value.trim(),same=x=>x.who.toLowerCase()==w.toLowerCase();
+if(!w)return toast("Enter your name or member ID first");
+if(av(i)<1)return toast("No copies available");
+if(act().some(l=>l.i==i&&same(l)))return toast("You already have this book");
+if(act().filter(same).length>=3)return toast("Loan limit reached (3 books)");
+ME=w;st.s("sl_me",w);BH.push({i,who:w,b:Date.now(),due:Date.now()+12096e5,r:0});save();run();brw();toast("✓ Borrowed “"+D[i].t+"” · due "+fd(BH[BH.length-1].due))}
+function circ(k=0){tabs("Returns & Loans",[["Currently borrowed",el=>{el.innerHTML=`<div class="bar2"><input id="mf" value="${esc(ME)}" placeholder="Filter by member name"></div><div id="ml"></div>`;const f=()=>{const w=$("#mf").value.toLowerCase();$("#ml").innerHTML=tbl(["ID","Book","Member","Borrowed","Due","Status",""],BH.map((x,j)=>[x,j]).filter(([x])=>!x.r&&x.who.toLowerCase().includes(w)).map(([x,j])=>[ID(x.i),D[x.i].t,esc(x.who),fd(x.b),fd(x.due),badge(x),`<button class="btn sm" onclick="doR(${j})">↩ Return</button>`]))};$("#mf").oninput=f;f()}],
+["Borrowing history",el=>{el.innerHTML=tbl(["ID","Book","Member","Borrowed","Returned"],BH.map(x=>[ID(x.i),D[x.i].t,esc(x.who),fd(x.b),x.r?fd(x.r):"On loan"]).reverse())}]],k)}
+function doR(j){const t=D[BH[j].i].t;BH[j].r=Date.now();save();run();circ(0);toast("✓ Returned “"+t+"”")}
+function ins(k=0){tabs("Search Insights",[["Search history",el=>{el.innerHTML=`<button class="btn ghost sm" id="hc">Clear history</button>`+tbl(["#","Time","Query"],SH.map((s,j)=>[j+1,new Date(s.t).toLocaleString(),esc(s.q)]).reverse());$("#hc").onclick=()=>{SH=[];save();ins(0);toast("History cleared")}}],
+["Keyword statistics",el=>{const f={};SH.forEach(s=>(s.q.toLowerCase().match(/[a-z0-9-]+/g)||[]).forEach(w=>f[w]=(f[w]||0)+1));const e=Object.entries(f).sort((a,b)=>b[1]-a[1]).slice(0,8),mx=e.length?e[0][1]:1,ks=[...e].sort((a,b)=>a[0]<b[0]?-1:1);
+el.innerHTML=`<div class="kp"><div><b>${SH.length}</b><small>total searches</small></div><div><b>${new Set(SH.map(s=>s.q.toLowerCase())).size}</b><small>unique queries</small></div><div><b>${Object.keys(f).length}</b><small>distinct keywords</small></div></div><div class="panel"><h3>Most searched keywords</h3>${e.map(([w,c])=>`<div class="hb"><span>${esc(w)}</span><i style="width:${c/mx*70}%"></i><b>${c}</b></div>`).join("")||'<p class="note">No searches yet – use Search Library first.</p>'}</div><div class="panel"><h3>Optimal search tree</h3><small>Keys (alphabetical) with frequency: ${ks.map(x=>esc(x[0])+"("+x[1]+")").join(", ")||"none"}</small><pre>Minimum expected search cost = ${ks.length?obst(ks.map(x=>x[1])):0}</pre></div>`}],
+["Usage activity",el=>{const DY=864e5,t0=new Date().setHours(0,0,0,0),days=[...Array(7)].map((_,j)=>t0-(6-j)*DY),ev=[...SH.map(s=>s.t),...BH.map(x=>x.b)],u=days.map(d=>ev.filter(t=>t>=d&&t<d+DY).length),cu=u.map((_,j)=>u.slice(0,j+1).reduce((a,b)=>a+b)),lb=days.map(d=>new Date(d).toLocaleDateString(undefined,{weekday:"short"})),
+bars=a=>{const mx=Math.max(...a,1);return`<div class="bars">${a.map((v,j)=>`<div class="bar"><small>${v}</small><i style="height:${v/mx*80}%"></i><em>${lb[j]}</em></div>`).join("")}</div>`},
+sm=SH.length?res(SH.length,Math.min(5,SH.length)).split(": ")[1].split(",").map(n=>esc(SH[+n-1].q)):[];
+el.innerHTML=`<div class="two"><div class="panel"><h3>Daily activity</h3><small>searches + borrows, last 7 days</small>${bars(u)}</div><div class="panel"><h3>Cumulative activity</h3><small>Blelloch parallel scan</small>${bars(cu)}</div></div><div class="two"><div class="panel"><h3>Parallel statistics</h3><small>Blelloch scan · Parallel reduce · Brent's theorem</small><pre>${bl(u)}\n\n${pr(u,4)}</pre></div><div class="panel"><h3>Sample of the search stream</h3><small>Reservoir sampling (k ≤ 5)</small><p>${sm.map(q=>`<span class="tag">${q}</span>`).join("")||'<span class="note">No searches yet.</span>'}</p></div></div>`}]],k)}
+function cmp(){const A=live(),op=A.map(i=>`<option value="${i}">${ID(i)} · ${D[i].t}</option>`).join("");
+pg("Compare Documents",`<div class="panel"><div class="two"><div><label>Document A</label><select id="ca">${op}</select></div><div><label>Document B</label><select id="cb">${op}</select></div></div><button class="btn" id="cg">Compare</button> <small>Needleman-Wunsch alignment · suffix array LCP</small><div id="co"></div></div><div class="panel"><h3>Related documents</h3><p class="note">Documents that share a long common phrase are linked. A 2-approximation vertex cover picks a small set of documents touching every link (Module 5).</p><button class="btn" id="cv">Analyse relationships</button><div id="cr"></div></div>`);
+$("#cb").selectedIndex=Math.min(1,A.length-1);
+$("#cg").onclick=()=>{const x=D[+$("#ca").value].ab.toLowerCase(),y=D[+$("#cb").value].ab.toLowerCase(),[n,ph]=cp(x,y);$("#co").innerHTML=`<pre>${esc(nw(x,y))}</pre><p>Longest shared phrase: <mark>${esc(ph)||"none"}</mark> (${n} characters)</p>`};
+$("#cv").onclick=()=>{const B=A.slice(0,40),e=[];B.forEach((p,u)=>B.slice(u+1).forEach(q=>{if(cp(D[p].ab.toLowerCase(),D[q].ab.toLowerCase())[0]>=18)e.push(p+"-"+q)}));$("#cr").innerHTML=e.length?`<p>${e.length} related pair(s): ${e.map(s=>s.split("-").map(n=>ID(+n)).join(" ↔ ")).join(", ")}</p><pre>${vc(e.join(",")).replace(/\{(.*?)\}/,(m,s)=>"{"+s.split(",").map(n=>ID(+n)).join(", ")+"}")}</pre>`:"<p class='note'>No related pairs found.</p>"}}
+function sam(s){const nx=[{}],ln=[0],lk=[-1],cn=[0];let last=0;for(const ch of s){const c=nx.length;nx.push({});ln.push(ln[last]+1);lk.push(0);cn.push(1);let p=last;while(p>=0&&!(ch in nx[p])){nx[p][ch]=c;p=lk[p]}
+if(p>=0){const q=nx[p][ch];if(ln[p]+1==ln[q])lk[c]=q;else{const k=nx.length;nx.push({...nx[q]});ln.push(ln[p]+1);lk.push(lk[q]);cn.push(0);while(p>=0&&nx[p][ch]==q){nx[p][ch]=k;p=lk[p]}lk[q]=lk[c]=k}}last=c}
+ln.map((_,i)=>i).sort((a,b)=>ln[b]-ln[a]).forEach(v=>{if(lk[v]>0)cn[lk[v]]+=cn[v]});return{nx,cn}}
+function samQ(m,p){let v=0;for(const ch of p){if(!(ch in m.nx[v]))return 0;v=m.nx[v][ch]}return m.cn[v]}
+function bsr(s,a,p){let lo=0,hi=a.length;while(lo<hi){const m=lo+hi>>1;s.substr(a[m],p.length)<p?lo=m+1:hi=m}const l=lo;hi=a.length;while(lo<hi){const m=lo+hi>>1;s.substr(a[m],p.length)<=p?lo=m+1:hi=m}return a.slice(l,lo)}
+function corp(){const A=live(),tx=i=>D[i].t+". "+D[i].ab+".",off=[];let p=0;A.forEach(i=>{off.push(p);p+=tx(i).length+1});return{s:A.map(tx).join("\n").toLowerCase(),off,A}}
+const docAt=(c,p)=>{let k=0;while(k+1<c.off.length&&c.off[k+1]<=p)k++;return D[c.A[k]].t};
+const sai=el=>{el.innerHTML=`<div class="panel"><p class="note">Indexes every title and abstract in the library as one text (Module 2).</p><button class="btn" id="sb">Build index</button><div id="so"></div></div>`;
+$("#sb").onclick=()=>{const c=corp(),t0=performance.now(),a=sa(c.s),l=kasai(c.s,a),ms=(performance.now()-t0).toFixed(1);let m=0,at=0;l.forEach((v,i)=>{if(v>m){m=v;at=a[i]}});
+$("#so").innerHTML=`<div class="kp"><div><b>${c.s.length}</b><small>characters</small></div><div><b>${ms} ms</b><small>build time</small></div><div><b>${m}</b><small>longest repeated phrase</small></div></div><p>Longest repeated phrase: <mark>${esc(c.s.substr(at,m).trim())}</mark></p><label>Search a phrase (binary search on the suffix array)</label><input id="sp" placeholder="e.g. suffix arrays"><pre id="sr"></pre>`+tbl(["Rank","Position","LCP","Suffix"],a.slice(0,20).map((p,i)=>[i,p,l[i],esc(c.s.substr(p,40).replace(/\n/g," "))]));
+$("#sp").oninput=e=>{const p=e.target.value.toLowerCase();if(!p){$("#sr").textContent="";return}const h=bsr(c.s,a,p);$("#sr").textContent=h.length?h.length+" occurrence(s) in: "+[...new Set(h.map(x=>docAt(c,x)))].join("; "):"Not found"}}}
+const samp=el=>{el.innerHTML=`<div class="panel"><p class="note">Builds a suffix automaton over the whole library text and counts substring occurrences.</p><button class="btn" id="mb2">Build automaton</button><div id="mo2"></div></div>`;
+$("#mb2").onclick=()=>{const c=corp(),t0=performance.now(),m=sam(c.s),ms=(performance.now()-t0).toFixed(1);
+$("#mo2").innerHTML=`<div class="kp"><div><b>${m.nx.length}</b><small>states</small></div><div><b>${c.s.length}</b><small>characters</small></div><div><b>${ms} ms</b><small>build time</small></div></div><label>Substring</label><input id="mq" placeholder="e.g. arrays"><pre id="mr2"></pre>`;
+$("#mq").oninput=e=>{const p=e.target.value.toLowerCase();if(!p){$("#mr2").textContent="";return}const n=samQ(m,p);$("#mr2").textContent=n?`Found ${n} time(s) in: `+[...new Set(kmp(c.s,p).map(x=>docAt(c,x)))].join("; "):"Substring not found"}}}
+
+const zt=el=>{el.innerHTML=`<div class="panel"><p class="note">Repeated phrase detection using the Z-function over the library text.</p><input id="zp" placeholder="e.g. library"><pre id="zr"></pre></div>`;$("#zp").oninput=e=>{const p=e.target.value.toLowerCase(),c=corp();if(!p)return $("#zr").textContent="";const z=zf(p+"\x01"+c.s),h=[];z.forEach((v,i)=>{if(i>p.length&&v>=p.length)h.push(i-p.length-1)});$("#zr").textContent=h.length?`Appears ${h.length} time(s) in: `+[...new Set(h.map(x=>docAt(c,x)))].join("; "):"Not found"}};
+const tix=(k=0)=>tabs("Text Index",[["Suffix Array & LCP",sai],["Suffix Automaton",samp],["Phrase finder (Z)",zt]],k);
+function rlv(){const a=[...RL];$("#v1").innerHTML=`<div class="wrap"><h2>My Reading List</h2>`+(a.length?`<div class="panel">${a.map(i=>`<div class="row"><span>${D[i].t}</span><small>${D[i].h}h · rating ${D[i].r}/10</small></div>`).join("")}</div><div class="panel"><label>Hours available: <b id="hv">8</b></label><input type="range" id="hr" min="1" max="30" value="8"><button class="btn" id="go">Build best reading plan</button><small> Bitmask DP</small><div id="plan"></div></div>`:`<p class="note">Your list is empty. Open a book in Discover and add it.</p>`)+`</div>`;
+if(a.length){$("#hr").oninput=e=>$("#hv").textContent=e.target.value;$("#go").onclick=()=>{const r=bm(a.map(i=>D[i].r),a.map(i=>D[i].h),+$("#hr").value),ix=r.match(/\[(.*)\]/)[1].split(",").filter(Boolean).map(Number);$("#plan").innerHTML=ix.length?"<h4>Recommended plan</h4>"+ix.map(n=>`<div class="row"><span>${D[a[n-1]].t}</span></div>`).join("")+`<p class="note">${r.split(", docs")[0]}</p>`:"<p class='note'>Nothing fits in that time.</p>"}}}
+const R=[["Dr. Rao","search,string,suffix"],["Prof. Lee","flow,matching,reviewers"],["Dr. Silva","ranking,randomized,parallel"],["Dr. Chen","suffix,similarity,alignment"]];
+function desk(){const ln=R.map(r=>{const ks=r[1].split(","),ps=D.map((d,i)=>[d,i]).filter(([d])=>d.ty!="Book"&&!d.x&&ks.some(k=>kmp((d.t+" "+d.ab+" "+d.k).toLowerCase(),k).length)).map(([,i])=>"P"+(i+1));return ps.length?r[0]+":"+ps.join(","):""}).filter(Boolean);
+$("#v2").innerHTML=`<div class="wrap"><h2>Librarian Desk</h2><div class="two"><div class="panel"><h3>Assign papers to reviewers</h3><small>Bipartite matching · König's theorem</small><pre>${match(ln).replace(/P(\d+)/g,(m,n)=>D[n-1].t)}</pre></div><div class="panel"><h3>Distribute resources to branches</h3><small>Edmonds-Karp max flow (S = central store, T = readers)</small><textarea id="fl" rows="7">S Central 15\nCentral East 8\nCentral West 9\nEast T 7\nWest T 10\nS Digital 6\nDigital T 6</textarea><button class="btn" id="fb">Compute max flow</button><pre id="fo"></pre></div></div></div>`;
+$("#fb").onclick=()=>{try{$("#fo").textContent=ek(L($("#fl").value))}catch(e){$("#fo").textContent=e.message}}}
+function lab(k){[...$("#lt").children].forEach(b=>b.classList.toggle("on",b.textContent==k));$("#lm").innerHTML="";M[k].forEach(a=>{const c=document.createElement("div");c.className="panel";c.innerHTML=`<h3>${a.n}</h3>`+a.i.map(x=>`<label>${x[0]}</label>`+(x[1].includes("\n")?`<textarea rows="4">${x[1]}</textarea>`:`<input value="${x[1].replace(/"/g,"&quot;")}">`)).join("")+`<button class="btn">Run</button><pre></pre>`;
+const ins=c.querySelectorAll("input,textarea"),o=c.querySelector("pre");c.querySelector("button").onclick=()=>{try{o.textContent=a.f(...[...ins].map(i=>i.value))}catch(e){o.textContent="Error: "+e.message}};$("#lm").append(c)})}
+
+const MODS=[["M1","String Search","KMP · Z-Function · Rabin-Karp · Aho-Corasick",()=>{go(0);$("#q").focus()}],["M2","Text Indexing","Suffix Array · LCP · Suffix Automaton",()=>tix()],["M3","Dynamic Programming","Edit distance · Alignment · Bitmask DP · Optimal BST",()=>cmp()],["M4","Network Flow","Bipartite matching · Edmonds-Karp",()=>{desk();go(2)}],["M5","NP & Approximation","SAT · Vertex Cover 2-approximation",()=>{go(4);lab("M5 NP")}],["M6","Randomized & Parallel","Quicksort · Reservoir · Blelloch · Reduce",()=>ins(2)]];
+function dash(){const lv=live(),a=act(),kp=[["📚",lv.length,"Items in catalogue"],["✅",lv.reduce((s,i)=>s+av(i),0),"Copies available"],["📖",a.length,"Currently borrowed"],["⚠️",a.filter(l=>l.due<Date.now()).length,"Overdue"]],rs=[...new Set(SH.map(s=>s.q))].slice(-8).reverse();
+$("#v3").innerHTML=`<div class="wrap"><h2>Dashboard</h2><p class="note" style="margin-top:-10px">Welcome back – ${new Date().toDateString()}</p><div class="kp">${kp.map(([e,n,l])=>`<div><span>${e}</span><b>${n}</b><small>${l}</small></div>`).join("")}</div>
+<div class="two"><div class="panel"><h3>Due soon</h3>${[...a].sort((x,y)=>x.due-y.due).slice(0,5).map(x=>`<div class="row"><span>${D[x.i].t}<br><small>${esc(x.who)} · due ${fd(x.due)}</small></span>${badge(x)}</div>`).join("")||'<p class="note">No books are on loan.</p>'}</div>
+<div class="panel"><h3>Recent searches</h3><p>${rs.map(q=>`<span class="tag">${esc(q)}</span>`).join("")||'<span class="note">No searches yet.</span>'}</p></div></div>
+<h3 class="sec">Algorithm modules in this system</h3><div class="mods">${MODS.map((m,i)=>`<button class="mod" onclick="MODS[${i}][3]()"><b>${m[0]}</b><h4>${m[1]}</h4><small>${m[2]}</small></button>`).join("")}</div></div>`}
+const NAV=[["Overview",[["🏠","Dashboard",()=>{dash();go(3)}]]],["Library",[["🔎","Search Library",()=>{go(0);$("#q").focus()}],["📚","Catalogue",()=>cat()],["➕","Add Item",addv],["🗑️","Delete Item",delv]]],["Circulation",[["📖","Borrow Book",()=>brw()],["🔁","Returns & Loans",()=>circ()]]],["Insights",[["📈","Search Insights",()=>ins()],["🧬","Compare Documents",cmp],["🗂️","Text Index",()=>tix()]]],["Administration",[["👥","Reviewer Desk",()=>{desk();go(2)}],["🎯","Reading Plan",()=>{rlv();go(1)}]]],["Algorithm Lab",[["🧪","Modules M1–M6",()=>go(4)]]]];
+NAV.forEach(([g,it])=>{const p=document.createElement("p");p.className="gl";p.textContent=g;$("#nv").append(p);it.forEach(([ic,n,f])=>{const b=document.createElement("button");b.innerHTML=`<span>${ic}</span>${n}`;b.onclick=()=>{document.querySelectorAll("#nv button").forEach(x=>x.classList.remove("on"));b.classList.add("on");f()};$("#nv").append(b)})});
+$("#ex").onclick=()=>{document.querySelectorAll("#nv button").forEach(x=>x.classList.remove("on"));pg("Exit",`<div class="panel" style="text-align:center;padding:32px"><h3>Thank you for using SmartLibrary 📚</h3><p class="note">Your books, loans and history are saved in this browser.</p><button class="btn" onclick="$('#nv button').click()">Back to Dashboard</button></div>`)};
+$("#mb").onclick=()=>$("#side").classList.toggle("open");
+["All","Available","Book","Journal","Paper"].forEach(f=>{const b=document.createElement("button");b.textContent=f;b.className=f==F?"on":"";b.onclick=()=>{F=f;[...$("#ch").children].forEach(x=>x.classList.toggle("on",x.textContent==f));run()};$("#ch").append(b)});
+Object.keys(M).forEach(k=>{const b=document.createElement("button");b.textContent=k;b.onclick=()=>lab(k);$("#lt").append(b)});
+$("#sf").onsubmit=e=>{e.preventDefault();const q=$("#q").value.trim();if(q){SH.push({q,t:Date.now()});save()}run()};$("#md").onchange=run;
+$("#res").onclick=e=>{const b=e.target.closest("[data-b]");if(b){brw(+b.dataset.b);return}const c=e.target.closest(".bk");if(c)det(+c.dataset.i)};
+run();desk();lab("M1 Strings");$("#nv button").click();
+</script></body></html>
